@@ -1,0 +1,84 @@
+generator client {
+  provider        = "prisma-client-js"
+  previewFeatures = ["postgresqlExtensions"]
+}
+
+datasource db {
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [pg_trgm]
+}
+
+enum USER_ROLE {
+  SUPER_ADMIN
+  ADMIN
+  USER
+}
+
+enum WORK_PLACE {
+  Remote
+  Office
+}
+
+model User {
+  id             Int                     @id @default(autoincrement())
+  empNo          String                  @unique
+  empNm          String
+  empNick        String
+  dispNm         String
+  departmentNm   String
+  Department     Department              @relation(references: [deptCd], fields: [deptCd], onUpdate: Cascade)
+  organizationNm String
+  photoEmp       String
+  role           USER_ROLE               @default(USER)
+  createdAt      DateTime                @default(now())
+  updatedAt      DateTime                @updatedAt
+  deptCd         String
+  CheckInOut     CheckInOutStatusByDay[]
+
+  @@index([empNick(ops: raw("gin_trgm_ops"))], type: Gin, name: "empNick_idx")
+  @@index([empNo(ops: raw("gin_trgm_ops"))], type: Gin, name: "empNo_idx")
+  @@index([dispNm(ops: raw("gin_trgm_ops"))], type: Gin, name: "dispNm_idx")
+  @@index([empNm(ops: raw("gin_trgm_ops"))], type: Gin, name: "empNm_idx")
+}
+
+model Department {
+  id           Int      @id @default(autoincrement())
+  departmentNm String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  deptCd       String   @unique
+  User         User[]
+
+  @@index([departmentNm, deptCd])
+  @@index([departmentNm(ops: raw("gin_trgm_ops"))], type: Gin, name: "departmentNm_idx")
+  @@index([deptCd(ops: raw("gin_trgm_ops"))], type: Gin, name: "deptCd_idx")
+}
+
+model CheckInOutStatusByDay {
+  empNo String
+  User  User   @relation(references: [empNo], fields: [empNo], onUpdate: Cascade)
+
+  checkinDate DateTime
+  checkinTime String
+  checkinIP   String
+
+  checkoutDate DateTime
+  checkoutTime String
+  checkoutIP   String
+
+  breakHours String
+  workHours  String
+
+  workplace WORK_PLACE
+
+  day                   String
+  holidayClassification String
+  dateOfWorktime        DateTime
+  remarks               String?
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @default(now()) @updatedAt
+
+  @@id([empNo, dateOfWorktime])
+}

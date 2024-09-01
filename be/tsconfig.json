@@ -1,0 +1,19 @@
+{
+  "compilerOptions": {
+    "target": "es2017",
+    "lib": ["es2017", "dom"],
+    "module": "commonjs",
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "forceConsistentCasingInFileNames": true,
+    "outDir": "./dist",
+    "strict": false, // Turn off all strict type checking options
+    "noImplicitAny": false, // Allow variables with implicit 'any' type
+    "noImplicitThis": false, // Allow 'this' with implicit 'any' type
+    "noImplicitReturns": false, // Allow functions without return statements
+    "noImplicitUseStrict": false, // Allow usage of 'use strict'
+    "noFallthroughCasesInSwitch": false // Allow fall-through cases in switch statements
+  },
+  "include": ["src/**/*"],
+  "exclude": ["node_modules"]
+}
