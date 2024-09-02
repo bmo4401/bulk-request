@@ -1,5 +1,5 @@
 import { Kysely, sql } from 'kysely';
-import { Database } from './type';
+import { Database } from '../models/database';
 import { db } from './kysely';
 
 export async function createDatabaseSchema(

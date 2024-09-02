@@ -1,11 +1,11 @@
 import { Insertable, Selectable, Updateable } from 'kysely';
 
-enum WORK_PLACE {
+export enum WORK_PLACE {
   Remote = 'Remote',
   Office = 'Office',
 }
 
-enum USER_ROLE {
+export enum USER_ROLE {
   SUPER_ADMIN = 'SUPER_ADMIN',
   ADMIN = 'ADMIN',
   USER = 'USER',

@@ -45,9 +45,11 @@ const generateRandomCheckInOutData = ({ empNo }: { empNo: string }) => {
     workHours,
     workplace,
     day,
-    holidayClassification,
-    dateOfWorktime: dateOfWorktime.toISOString(),
-    remarks,
+    /*     holidayClassification, */
+    holidayClassification: 'Regular updated 2',
+    /*     dateOfWorktime: dateOfWorktime.toISOString(), */
+    dateOfWorktime: new Date('2024-04-12T19:39:11.944Z').toISOString(),
+    remarks: 'helo',
     createdAt,
     updatedAt,
   };
@@ -63,7 +65,10 @@ export const createMockRecords = async ({
   const records = [];
   for (let i = 0; i < numberOfRecords; i++) {
     const empNo = empNos[Math.floor(Math.random() * empNos.length)].empNo;
-    records.push(generateRandomCheckInOutData({ empNo }));
   }
+  records.push(
+    generateRandomCheckInOutData({ empNo: 'Test1' }),
+    generateRandomCheckInOutData({ empNo: 'Test2' }),
+  );
   return records;
 };
